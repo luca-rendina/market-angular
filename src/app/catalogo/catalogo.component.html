@@ -1,0 +1,42 @@
+<div class="text-left text-muted">
+    <h5>Lista frutta e verdura acquistabile</h5>
+</div>
+<div class="container py-5 text-center" *ngIf="listaMerce.length == 0">
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div class="table py-5">
+    <div class="row border-bottom border-dark py-1" *ngFor="let m of listaMerce!; index as i">
+        <div class="col-sm border-right">{{ m.descrizione }}</div>
+        <div class="col-sm border-right">{{ m.prezzoUnitario }}€</div>
+        <div class="col-sm border-right"><input type="number" placeholder="Quantità" (input)="calcolaPrezzoTotale(m, i)" [(ngModel)]="quantita[i]" /> </div>
+        <div class="col-sm border-right"><input type="button" value="Pesatura" (click)="calcolaPesoMerce(m, i)" [disabled]="!m.pesatura"/></div>
+        <div class="col-sm border-right"><input type="number" placeholder="1" (input)="calcolaPrezzoTotale(m, i)" [(ngModel)]="peso[i]" disabled/> </div>
+        <div class="col-sm"><input type="number" placeholder="Prezzo Totale" [value]="prezzoTotale[i]" /> </div>
+    </div>
+    <button class="btn btn-primary btn-lg py-2" type="button" (click)="preview()" > Cassa </button>
+</div>
+
+<!-- PREVIEW SCONTRINO -->
+<div id="scontrinoPanel" *ngIf="listaScontrino.length != 0">
+    <a (click)="closePreview()">
+        <img src="http://cdn.onlinewebfonts.com/svg/img_127536.png" class="img-fluid">
+    </a>
+    <h5>Preview Scontrino</h5>
+    <table class="table table-striped">
+        <thead>
+            <th>Quantita</th>
+            <th>Descrizione</th>
+            <th>prezzoTotale</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let s of listaScontrino!">
+                <td>{{ s.quantita }}</td>
+                <td>{{ s.descrizione }}</td>
+                <td>{{ s.prezzoTotale }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-primary btn-lg py-2" type="button" (click)="goCassa()" > Conferma </button>
+</div>
